@@ -292,7 +292,7 @@ secs.forEach(id=>{const el=document.getElementById(id);if(el)ao.observe(el)});
 })();
 
 // ─── CONTACT FORM (Formspree + mailto fallback) ───
-const FORMSPREE_ID='YOUR_FORMSPREE_ID';
+const FORMSPREE_ID='mzdlzgeq';
 const sbtn=document.getElementById('sbtn');
 const sendIconSVG='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:16px;height:16px"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>';
 
