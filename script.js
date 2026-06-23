@@ -29,7 +29,7 @@ const I18N = {
     tl3y:'Production Systems', tl3t:'Flask, Django &amp; ERP integration',
     tl3d:'Built a Flask middleware bridging ST-Face biometric devices with Odoo 18 — and a full Django e-commerce app from scratch.',
     tl4y:'AI Tooling', tl4t:'Building with Claude Code as an engine',
-    tl4d:'Started wiring Claude Code CLI into desktop apps — Rasco and CodePilot — to automate my own day-to-day development.',
+    tl4d:'Started wiring Claude Code CLI into desktop apps — Rasco and Gosi — to automate my own day-to-day development.',
     tl5y:'Now', tl5t:'AlirezaRg',
     tl5d:'Taking on backend, Linux, and integration work under one name — and still automating everything I possibly can.',
     skillsEyb:'Technical Stack', skillsTitle:'What <span class="g">AlirezaRg</span> Does',
@@ -89,7 +89,7 @@ const I18N = {
     tl3y:'سیستم‌های Production', tl3t:'یکپارچه‌سازی Flask، Django و ERP',
     tl3d:'یه میدل‌ور Flask ساختم که دستگاه‌های بیومتریک ST-Face رو به اودوو ۱۸ وصل می‌کنه — و یه اپ فروشگاهی کامل با Django از صفر.',
     tl4y:'ابزارهای هوش مصنوعی', tl4t:'ساخت ابزار با موتور Claude Code',
-    tl4d:'شروع کردم به وصل کردن Claude Code CLI به اپ‌های دسکتاپ — Rasco و CodePilot — برای خودکارسازی کار روزمره‌ی خودم.',
+    tl4d:'شروع کردم به وصل کردن Claude Code CLI به اپ‌های دسکتاپ — Rasco و Gosi — برای خودکارسازی کار روزمره‌ی خودم.',
     tl5y:'الان', tl5t:'AlirezaRg',
     tl5d:'بک‌اند، لینوکس و یکپارچه‌سازی رو زیر یه اسم انجام می‌دم — و هنوز هرچیزی که می‌شه رو خودکار می‌کنم.',
     skillsEyb:'استک فنی', skillsTitle:'کاری که <span class="g">AlirezaRg</span> انجام می‌ده',
@@ -292,7 +292,7 @@ secs.forEach(id=>{const el=document.getElementById(id);if(el)ao.observe(el)});
 })();
 
 // ─── CONTACT FORM (Formspree + mailto fallback) ───
-const FORMSPREE_ID='mzdlzgeq';
+const FORMSPREE_ID='YOUR_FORMSPREE_ID';
 const sbtn=document.getElementById('sbtn');
 const sendIconSVG='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:16px;height:16px"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>';
 
