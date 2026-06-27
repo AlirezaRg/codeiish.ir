@@ -1,3 +1,19 @@
+/* ══════════════ PRELOADER ══════════════ */
+#preloader{position:fixed;inset:0;z-index:99999;background:var(--bg);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1.7rem;transition:transform .8s cubic-bezier(.76,0,.24,1),opacity .6s ease}
+#preloader.done{transform:translateY(-100%);opacity:0;pointer-events:none}
+body.pl-active{overflow:hidden}
+.pl-logo{width:60px;height:60px;border-radius:16px;background:linear-gradient(135deg,var(--amber),var(--coral));display:flex;align-items:center;justify-content:center;animation:plPulse 1.6s ease-in-out infinite}
+.pl-logo svg{width:30px;height:30px}
+@keyframes plPulse{0%,100%{transform:scale(1)}50%{transform:scale(1.08)}}
+.pl-icons{display:flex;gap:.7rem}
+.pli{width:34px;height:34px;border-radius:9px;background:var(--panel);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;opacity:.12;transform:translateY(6px);transition:opacity .4s,transform .4s,border-color .4s}
+.pli svg{width:17px;height:17px}
+.pli.on{opacity:1;transform:none;border-color:var(--border2)}
+.pl-percent{font-family:var(--f-mono);font-size:1.7rem;font-weight:600;color:var(--ink);letter-spacing:.02em}
+.pl-bar{width:180px;height:2px;background:var(--border);border-radius:2px;overflow:hidden}
+.pl-bar-fill{height:100%;width:0%;background:linear-gradient(90deg,var(--amber),var(--coral),var(--teal))}
+@media(prefers-reduced-motion:reduce){.pl-logo{animation:none}}
+
 /* ══════════════ RESET & TOKENS ══════════════ */
 *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 :root{

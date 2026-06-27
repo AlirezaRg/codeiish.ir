@@ -1,3 +1,32 @@
+// ════════════════════ PRELOADER ════════════════════
+(()=>{
+  const pre=document.getElementById('preloader');
+  if(!pre)return;
+  document.body.classList.add('pl-active');
+  const num=document.getElementById('plNum');
+  const bar=document.getElementById('plBarFill');
+  const icons=pre.querySelectorAll('.pli');
+  const duration=1700;
+  const start=performance.now();
+  function step(ts){
+    const elapsed=ts-start;
+    const p=Math.min(100,Math.round((elapsed/duration)*100));
+    if(num)num.textContent=p;
+    if(bar)bar.style.width=p+'%';
+    const lit=Math.ceil((p/100)*icons.length);
+    icons.forEach((ic,i)=>{ ic.classList.toggle('on', i<lit); });
+    if(p<100){ requestAnimationFrame(step); }
+    else{
+      setTimeout(()=>{
+        pre.classList.add('done');
+        document.body.classList.remove('pl-active');
+        setTimeout(()=>{ pre.remove(); },850);
+      },300);
+    }
+  }
+  requestAnimationFrame(step);
+})();
+
 // ════════════════════ I18N DICTIONARY ════════════════════
 const I18N = {
   en: {
