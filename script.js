@@ -87,7 +87,8 @@ const I18N = {
     sendBtn:'Send Message',
     formNote:'Until a backend is connected, this opens a pre-filled email instead.',
     footerCopy:'© 2026 AlirezaRg · Alireza Rogni · All rights reserved',
-    sendingTxt:'Sending...', sentTxt:'✓ Message Sent!', failTxt:'✗ Failed — Try Again'
+    sendingTxt:'Sending...', sentTxt:'✓ Message Sent!', failTxt:'✗ Failed — Try Again',
+    filterAll:'All', copyEmailLabel:'Copy email', copiedLabel:'✓ Copied!', ghLiveLabel:'Live from github.com/AlirezaRg'
   },
   fa: {
     navStudio:'استودیو', navAbout:'درباره من', navSkills:'مهارت‌ها', navProjects:'پروژه‌ها', navContact:'تماس',
@@ -147,7 +148,8 @@ const I18N = {
     sendBtn:'ارسال پیام',
     formNote:'تا وقتی بک‌اند واقعی وصل نشه، این دکمه یه ایمیل از پیش پرشده باز می‌کنه.',
     footerCopy:'© ۲۰۲۶ AlirezaRg · علیرضا رُگنی · تمام حقوق محفوظ است',
-    sendingTxt:'در حال ارسال...', sentTxt:'✓ پیام ارسال شد!', failTxt:'✗ ناموفق — دوباره تلاش کنید'
+    sendingTxt:'در حال ارسال...', sentTxt:'✓ پیام ارسال شد!', failTxt:'✗ ناموفق — دوباره تلاش کنید',
+    filterAll:'همه', copyEmailLabel:'کپی ایمیل', copiedLabel:'✓ کپی شد!', ghLiveLabel:'زنده از github.com/AlirezaRg'
   }
 };
 
@@ -397,6 +399,72 @@ sbtn.addEventListener('click',async function(){
     setTimeout(()=>{ if(span)span.textContent=I18N[curLang].sendBtn; this.style.background=''; },3500);
   }
 });
+
+// ─── PROJECT TAG FILTER ───
+(()=>{
+  const bar=document.getElementById('pjFilterBar');
+  const grid=document.querySelector('#projects .pj-grid');
+  if(!bar||!grid)return;
+  const cards=[...grid.querySelectorAll('.pjc')];
+  const tagSet=new Set();
+  cards.forEach(c=>{ c.querySelectorAll('.stag').forEach(t=>tagSet.add(t.textContent.trim())); });
+  const tags=[...tagSet].sort();
+
+  const allChip=document.createElement('button');
+  allChip.className='pf-chip active';
+  allChip.type='button';
+  allChip.dataset.tag='__all__';
+  allChip.setAttribute('data-i18n','filterAll');
+  allChip.textContent=I18N[curLang].filterAll;
+  bar.appendChild(allChip);
+
+  tags.forEach(tag=>{
+    const chip=document.createElement('button');
+    chip.className='pf-chip';
+    chip.type='button';
+    chip.dataset.tag=tag;
+    chip.textContent=tag;
+    bar.appendChild(chip);
+  });
+
+  bar.addEventListener('click',e=>{
+    const chip=e.target.closest('.pf-chip');
+    if(!chip)return;
+    bar.querySelectorAll('.pf-chip').forEach(c=>c.classList.remove('active'));
+    chip.classList.add('active');
+    const tag=chip.dataset.tag;
+    cards.forEach(c=>{
+      if(tag==='__all__'){ c.style.display=''; return; }
+      const has=[...c.querySelectorAll('.stag')].some(t=>t.textContent.trim()===tag);
+      c.style.display=has?'':'none';
+    });
+  });
+})();
+
+// ─── COPY EMAIL ───
+(()=>{
+  const btn=document.getElementById('copyEmailBtn');
+  if(!btn)return;
+  btn.addEventListener('click',async()=>{
+    const span=btn.querySelector('span');
+    try{
+      await navigator.clipboard.writeText('alirezarogni@gmail.com');
+    }catch(e){
+      const ta=document.createElement('textarea');
+      ta.value='alirezarogni@gmail.com';
+      document.body.appendChild(ta);
+      ta.select();
+      try{document.execCommand('copy')}catch(e2){}
+      ta.remove();
+    }
+    btn.classList.add('copied');
+    if(span)span.textContent=I18N[curLang].copiedLabel;
+    setTimeout(()=>{
+      btn.classList.remove('copied');
+      if(span)span.textContent=I18N[curLang].copyEmailLabel;
+    },1800);
+  });
+})();
 
 // ─── INIT ───
 applyLang('en');
