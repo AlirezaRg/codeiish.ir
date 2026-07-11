@@ -479,10 +479,9 @@ sbtn.addEventListener('click',async function(){
 
 // ─── PROJECTS — APPLE STICKY SCROLL ───
 (()=>{
-  const IMG=(src,alt)=>`
-    <div style="position:relative;width:100%;height:100%">
-      <img src="${src}" alt="${alt}" style="width:100%;height:100%;object-fit:cover;object-position:center;display:block">
-      <div class="proj-vis-overlay"></div>
+  const IMG=(src,alt,whiteNg=false)=>`
+    <div style="position:relative;width:100%;height:100%;display:flex;align-items:center;justify-content:center;padding:3rem 2rem 3rem 1rem">
+      <img src="${src}" alt="${alt}" style="max-height:82vh;max-width:100%;width:auto;height:auto;object-fit:contain;border-radius:18px;display:block;${whiteNg?'mix-blend-mode:multiply;':'filter:drop-shadow(0 24px 70px rgba(0,0,0,.7));'}">
     </div>`;
 
   const GH='<svg viewBox="0 0 24 24" fill="currentColor" width="14" height="14"><path d="M12 2C6.48 2 2 6.48 2 12c0 4.42 2.87 8.17 6.84 9.5.5.09.68-.22.68-.48v-1.7c-2.78.6-3.37-1.34-3.37-1.34-.46-1.16-1.11-1.47-1.11-1.47-.91-.62.07-.6.07-.6 1 .07 1.53 1.03 1.53 1.03.89 1.52 2.34 1.08 2.91.83.09-.65.35-1.09.63-1.34-2.22-.25-4.55-1.11-4.55-4.94 0-1.09.39-1.98 1.03-2.68-.1-.25-.45-1.27.1-2.64 0 0 .84-.27 2.75 1.02A9.56 9.56 0 0112 6.8c.85 0 1.71.11 2.5.33 1.91-1.29 2.75-1.02 2.75-1.02.55 1.37.2 2.39.1 2.64.64.7 1.03 1.59 1.03 2.68 0 3.84-2.34 4.68-4.57 4.93.36.31.68.92.68 1.85v2.74c0 .27.18.58.69.48A10.01 10.01 0 0022 12c0-5.52-4.48-10-10-10z"/></svg>';
@@ -506,7 +505,7 @@ sbtn.addEventListener('click',async function(){
       fa:{desc:'دستیار کدنویسی با تم سایبرپانک و ماسکات گوسفند، مبتنی بر Claude Code CLI. توابع رو توضیح می‌ده، باگ پیدا می‌کنه و راه‌حل پیشنهاد می‌ده — همه از یه رابط دسکتاپ شیک.',badge:'متن‌باز'},
       tags:['Python','Claude Code CLI','Desktop UI'],
       link:'https://github.com/AlirezaRg/Rasco-Gosi',
-      vis:()=>IMG('./img/gosi.jpg','Gosi CodePilot')
+      vis:()=>IMG('./img/gosi.jpg','Gosi CodePilot',true)
     },
     {
       badge:'cl', accent:'#a855f7',
@@ -516,7 +515,7 @@ sbtn.addEventListener('click',async function(){
       fa:{desc:'میدل‌ور Flask که دستگاه‌های بیومتریک ST-Face E540 رو به اودوو ۱۸ وصل می‌کنه. کارمندان از دستگاه فیزیکی ورود می‌زنن — اودوو فوری از طریق WebSocket ثبت می‌کنه، بدون ورود دستی.',badge:'پروژه مشتری'},
       tags:['Flask','Odoo 18','WebSocket','PostgreSQL'],
       link:'',
-      vis:()=>IMG('./img/odoo.jpg','Flask + Odoo Bridge')
+      vis:()=>IMG('./img/odoo.jpg','Flask + Odoo Bridge',true)
     },
     {
       badge:'cl', accent:'#ff6b5b',
@@ -554,7 +553,7 @@ sbtn.addEventListener('click',async function(){
       fa:{desc:'مبدل کد هوشمند بین ۱۳ زبان برنامه‌نویسی. به پایتون بنویس، فوری به Rust، Go یا Java تبدیل کن — با Claude Code CLI که اصطلاحات هر زبان رو حفظ می‌کنه.',badge:'متن‌باز'},
       tags:['Python','Tkinter','Claude Code CLI','Threading'],
       link:'https://github.com/AlirezaRg/Ex-Changes-Code',
-      vis:()=>IMG('./img/exchange.png','EX-CHANGE Code Translator')
+      vis:()=>IMG('./img/exchange.png','EX-CHANGE Code Translator',true)
     },
     {
       badge:'os', accent:'#4ade80',
@@ -564,7 +563,7 @@ sbtn.addEventListener('click',async function(){
       fa:{desc:'با یه کلیک کل پروژه رو اسکن کن، بعد هر چیزی به زبان ساده بپرس. "کجا auth رو handle می‌کنم؟"، "کدوم فایل ایمیل می‌فرسته؟" — Claude Code CLI کد رو می‌خونه و فوری جواب می‌ده.',badge:'متن‌باز'},
       tags:['Python','Tkinter','Claude Code CLI','Threading'],
       link:'https://github.com/AlirezaRg/code-analysis',
-      vis:()=>IMG('./img/codeanalysis.png','CODEANALYSIS Smart Search')
+      vis:()=>IMG('./img/codeanalysis.png','CODEANALYSIS Smart Search',true)
     },
     {
       badge:'os', accent:'#38bdf8',
