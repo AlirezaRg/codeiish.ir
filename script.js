@@ -355,17 +355,17 @@ function tl(){
   if(!el) return;
 
   const tryInit = () => {
-    const GradClass = (typeof NeatGradient !== 'undefined') ? NeatGradient
-                    : (window.Neat && window.Neat.NeatGradient) ? window.Neat.NeatGradient
+    const GradClass = (window.neat && window.neat.NeatGradient) ? window.neat.NeatGradient
+                    : (typeof NeatGradient !== 'undefined') ? NeatGradient
                     : null;
     if(!GradClass){ setTimeout(tryInit, 200); return; }
 
     const gradient = new GradClass({
       ref: el,
       colors: [
-        { color: '#FFA100', enabled: true },
-        { color: '#121212', enabled: true },
-        { color: '#323535', enabled: true },
+        { color: '#181817', enabled: true },
+        { color: '#FF8F00', enabled: true },
+        { color: '#459490', enabled: true },
         { color: '#E4E4E4', enabled: false },
         { color: '#F6FFFF', enabled: false },
       ],
@@ -392,17 +392,19 @@ function tl(){
       yOffsetWaveMultiplier: 5,
       yOffsetColorMultiplier: 4.5,
       yOffsetFlowMultiplier: 5.5,
-      flowDistortionA: 0.4,
-      flowDistortionB: 3,
-      flowScale: 3.3,
-      flowEase: 0.53,
+      flowDistortionA: 0,
+      flowDistortionB: 0,
+      flowScale: 1,
+      flowEase: 0,
       flowEnabled: true,
       enableProceduralTexture: false,
       domainWarpEnabled: false,
       vignetteIntensity: 0,
+      vignetteRadius: 0.8,
       fresnelEnabled: false,
       iridescenceEnabled: false,
       bloomIntensity: 0,
+      bloomThreshold: 0.7,
       chromaticAberration: 0,
       shapeType: 'plane',
       flatShading: true,
