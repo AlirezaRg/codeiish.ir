@@ -349,19 +349,72 @@ function tl(){
   typeBlock();
 })();
 
-// ─── PARTICLES ───
+// ─── NEAT ANIMATED GRADIENT ───
 (()=>{
-  const cv=document.getElementById('hcv'),cx=cv.getContext('2d');
-  let pts=[];const N=55;
-  function rs(){cv.width=window.innerWidth;cv.height=window.innerHeight;ip()}
-  function ip(){pts=[];for(let i=0;i<N;i++)pts.push({x:Math.random()*cv.width,y:Math.random()*cv.height,vx:(Math.random()-.5)*.28,vy:(Math.random()-.5)*.28,r:Math.random()*1.1+.4})}
-  rs();window.addEventListener('resize',rs);
-  function dr(){
-    cx.clearRect(0,0,cv.width,cv.height);
-    for(let p of pts){p.x+=p.vx;p.y+=p.vy;if(p.x<0||p.x>cv.width)p.vx*=-1;if(p.y<0||p.y>cv.height)p.vy*=-1;cx.beginPath();cx.arc(p.x,p.y,p.r,0,Math.PI*2);cx.fillStyle='rgba(255,180,84,.4)';cx.fill()}
-    for(let i=0;i<pts.length;i++)for(let j=i+1;j<pts.length;j++){const d=Math.hypot(pts[i].x-pts[j].x,pts[i].y-pts[j].y);if(d<120){cx.beginPath();cx.moveTo(pts[i].x,pts[i].y);cx.lineTo(pts[j].x,pts[j].y);cx.strokeStyle=`rgba(54,224,193,${.09*(1-d/120)})`;cx.lineWidth=.5;cx.stroke()}}
-    requestAnimationFrame(dr);
-  }dr();
+  const el = document.getElementById('gradient');
+  if(!el) return;
+
+  const tryInit = () => {
+    const GradClass = (typeof NeatGradient !== 'undefined') ? NeatGradient
+                    : (window.Neat && window.Neat.NeatGradient) ? window.Neat.NeatGradient
+                    : null;
+    if(!GradClass){ setTimeout(tryInit, 200); return; }
+
+    const gradient = new GradClass({
+      ref: el,
+      colors: [
+        { color: '#FFA100', enabled: true },
+        { color: '#121212', enabled: true },
+        { color: '#323535', enabled: true },
+        { color: '#E4E4E4', enabled: false },
+        { color: '#F6FFFF', enabled: false },
+      ],
+      speed: 4,
+      horizontalPressure: 4,
+      verticalPressure: 5,
+      waveFrequencyX: 1,
+      waveFrequencyY: 2,
+      waveAmplitude: 10,
+      shadows: 4,
+      highlights: 7,
+      colorBrightness: 1,
+      colorSaturation: 0,
+      wireframe: false,
+      colorBlending: 7,
+      backgroundColor: '#00A2FF',
+      backgroundAlpha: 1,
+      grainScale: 4,
+      grainSparsity: 0,
+      grainIntensity: 0.2,
+      grainSpeed: 2.2,
+      resolution: 0.65,
+      yOffset: 0,
+      yOffsetWaveMultiplier: 5,
+      yOffsetColorMultiplier: 4.5,
+      yOffsetFlowMultiplier: 5.5,
+      flowDistortionA: 0.4,
+      flowDistortionB: 3,
+      flowScale: 3.3,
+      flowEase: 0.53,
+      flowEnabled: true,
+      enableProceduralTexture: false,
+      domainWarpEnabled: false,
+      vignetteIntensity: 0,
+      fresnelEnabled: false,
+      iridescenceEnabled: false,
+      bloomIntensity: 0,
+      chromaticAberration: 0,
+      shapeType: 'plane',
+      flatShading: true,
+      cameraLock: true,
+    });
+
+    window.addEventListener('scroll', () => {
+      gradient.yOffset = window.scrollY;
+    }, { passive: true });
+  };
+
+  tryInit();
 })();
 
 // ─── SCROLL PROGRESS ───
