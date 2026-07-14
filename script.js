@@ -462,222 +462,102 @@ sbtn.addEventListener('click',async function(){
   }
 });
 
-// ─── PROJECTS — APPLE STICKY SCROLL ───
+// ─── PROJECTS — AUTO-SCROLL MARQUEE + DETAIL GRID ───
 (()=>{
-  const IMG=(src,alt,whiteNg=false)=>`
-    <div style="position:relative;width:100%;height:100%;display:flex;align-items:center;justify-content:center;padding:3rem 2rem 3rem 1rem">
-      <img src="${src}" alt="${alt}" style="max-height:82vh;max-width:100%;width:auto;height:auto;object-fit:contain;border-radius:18px;display:block;${whiteNg?'mix-blend-mode:multiply;':'filter:drop-shadow(0 24px 70px rgba(0,0,0,.7));'}">
-    </div>`;
-
-  const GH='<svg viewBox="0 0 24 24" fill="currentColor" width="14" height="14"><path d="M12 2C6.48 2 2 6.48 2 12c0 4.42 2.87 8.17 6.84 9.5.5.09.68-.22.68-.48v-1.7c-2.78.6-3.37-1.34-3.37-1.34-.46-1.16-1.11-1.47-1.11-1.47-.91-.62.07-.6.07-.6 1 .07 1.53 1.03 1.53 1.03.89 1.52 2.34 1.08 2.91.83.09-.65.35-1.09.63-1.34-2.22-.25-4.55-1.11-4.55-4.94 0-1.09.39-1.98 1.03-2.68-.1-.25-.45-1.27.1-2.64 0 0 .84-.27 2.75 1.02A9.56 9.56 0 0112 6.8c.85 0 1.71.11 2.5.33 1.91-1.29 2.75-1.02 2.75-1.02.55 1.37.2 2.39.1 2.64.64.7 1.03 1.59 1.03 2.68 0 3.84-2.34 4.68-4.57 4.93.36.31.68.92.68 1.85v2.74c0 .27.18.58.69.48A10.01 10.01 0 0022 12c0-5.52-4.48-10-10-10z"/></svg>';
+  const GH='<svg viewBox="0 0 24 24" fill="currentColor" width="12" height="12"><path d="M12 2C6.48 2 2 6.48 2 12c0 4.42 2.87 8.17 6.84 9.5.5.09.68-.22.68-.48v-1.7c-2.78.6-3.37-1.34-3.37-1.34-.46-1.16-1.11-1.47-1.11-1.47-.91-.62.07-.6.07-.6 1 .07 1.53 1.03 1.53 1.03.89 1.52 2.34 1.08 2.91.83.09-.65.35-1.09.63-1.34-2.22-.25-4.55-1.11-4.55-4.94 0-1.09.39-1.98 1.03-2.68-.1-.25-.45-1.27.1-2.64 0 0 .84-.27 2.75 1.02A9.56 9.56 0 0112 6.8c.85 0 1.71.11 2.5.33 1.91-1.29 2.75-1.02 2.75-1.02.55 1.37.2 2.39.1 2.64.64.7 1.03 1.59 1.03 2.68 0 3.84-2.34 4.68-4.57 4.93.36.31.68.92.68 1.85v2.74c0 .27.18.58.69.48A10.01 10.01 0 0022 12c0-5.52-4.48-10-10-10z"/></svg>';
+  const PI='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M9 9h6M9 13h4"/></svg>';
 
   const PROJ = [
-    {
-      badge:'os', accent:'#36e0c1',
-      bg:'radial-gradient(ellipse 80% 80% at 70% 50%,#081a14,#040e0a)',
-      title:'Rasco',
-      en:{desc:'A JARVIS-style desktop AI assistant — Claude Code CLI wired as the reasoning engine, Tkinter as the face. Reads your code, runs commands, and answers questions in real time.',badge:'Open Source'},
-      fa:{desc:'دستیار هوش مصنوعی دسکتاپ به سبک JARVIS — Claude Code CLI به‌عنوان موتور استدلال و Tkinter به‌عنوان رابط. کد رو می‌خونه، دستورات رو اجرا می‌کنه و سوالات رو لحظه‌ای جواب می‌ده.',badge:'متن‌باز'},
-      tags:['Python','Tkinter','Claude Code CLI'],
-      link:'https://github.com/AlirezaRg/Rasco-Gosi',
-      vis:()=>IMG('./img/rasco.jpg','Rasco AI Assistant')
-    },
-    {
-      badge:'os', accent:'#f472b6',
-      bg:'radial-gradient(ellipse 80% 80% at 70% 50%,#1a0a18,#0d0612)',
-      title:'Gosi',
-      en:{desc:'A cyberpunk-themed coding assistant with a sheep mascot, powered by Claude Code CLI. Explains functions, finds bugs, and suggests fixes — all from a sleek desktop UI.',badge:'Open Source'},
-      fa:{desc:'دستیار کدنویسی با تم سایبرپانک و ماسکات گوسفند، مبتنی بر Claude Code CLI. توابع رو توضیح می‌ده، باگ پیدا می‌کنه و راه‌حل پیشنهاد می‌ده — همه از یه رابط دسکتاپ شیک.',badge:'متن‌باز'},
-      tags:['Python','Claude Code CLI','Desktop UI'],
-      link:'https://github.com/AlirezaRg/Rasco-Gosi',
-      vis:()=>IMG('./img/gosi.jpg','Gosi CodePilot',true)
-    },
-    {
-      badge:'cl', accent:'#a855f7',
-      bg:'radial-gradient(ellipse 80% 80% at 70% 50%,#150a1a,#0a0512)',
-      title:'Flask + Odoo Bridge',
-      en:{desc:'Flask middleware connecting ST-Face E540 biometric devices to Odoo 18 ERP. Employees check in on a physical device — Odoo records it instantly via WebSocket, no manual data entry.',badge:'Client Project'},
-      fa:{desc:'میدل‌ور Flask که دستگاه‌های بیومتریک ST-Face E540 رو به اودوو ۱۸ وصل می‌کنه. کارمندان از دستگاه فیزیکی ورود می‌زنن — اودوو فوری از طریق WebSocket ثبت می‌کنه، بدون ورود دستی.',badge:'پروژه مشتری'},
-      tags:['Flask','Odoo 18','WebSocket','PostgreSQL'],
-      link:'',
-      vis:()=>IMG('./img/odoo.jpg','Flask + Odoo Bridge',true)
-    },
-    {
-      badge:'cl', accent:'#ff6b5b',
-      bg:'radial-gradient(ellipse 80% 80% at 70% 50%,#180c08,#0e0604)',
-      title:'Omid Market',
-      en:{desc:'A full-featured Django e-commerce app for a supermarket. Product catalog, cart management, ZarinPal payment gateway, and admin panel — with complete RTL support for Persian users.',badge:'Client Project'},
-      fa:{desc:'اپ فروشگاهی کامل با Django برای یه سوپرمارکت. کاتالوگ محصول، مدیریت سبد خرید، درگاه پرداخت زرین‌پال و پنل ادمین — با پشتیبانی کامل RTL برای کاربران فارسی‌زبان.',badge:'پروژه مشتری'},
-      tags:['Django','PostgreSQL','ZarinPal','Bootstrap 5 RTL'],
-      link:'',
-      vis:()=>`<div style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;padding:1.5rem 2rem">
-        <div style="background:#1a0e0a;border:1px solid rgba(255,107,91,.25);border-radius:18px;overflow:hidden;width:100%;max-width:360px;filter:drop-shadow(0 24px 70px rgba(0,0,0,.8))">
-          <div style="background:#140a08;padding:.65rem 1rem;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid rgba(255,255,255,.06)">
-            <span style="font-family:monospace;font-size:.75rem;color:#ff6b5b;font-weight:700">امید مارکت</span>
-            <span style="font-size:.8rem">🛒 <span style="font-family:monospace;font-size:.68rem;color:rgba(255,255,255,.4)">2</span></span>
-          </div>
-          <div style="padding:1rem;display:grid;grid-template-columns:1fr 1fr;gap:.65rem">
-            ${[['🥛','شیر کم‌چرب','۱۵,۰۰۰ ت'],['🥑','آووکادو','۴۸,۰۰۰ ت'],['🍞','نان سنگک','۸,۵۰۰ ت'],['🧀','پنیر لیقوان','۳۲,۰۰۰ ت'],['☕','قهوه اتیوپی','۶۵,۰۰۰ ت'],['🫒','روغن زیتون','۹۸,۰۰۰ ت']].map(([e,n,p])=>`
-            <div style="background:#2a1510;border-radius:10px;overflow:hidden;border:1px solid rgba(255,107,91,.1)">
-              <div style="height:52px;display:flex;align-items:center;justify-content:center;font-size:1.5rem;background:#1f100a">${e}</div>
-              <div style="padding:.45rem .65rem"><div style="font-size:.68rem;color:rgba(255,255,255,.75)">${n}</div><div style="font-size:.62rem;color:#ff6b5b;margin-top:.18rem">${p}</div></div>
-            </div>`).join('')}
-          </div>
-          <div style="padding:.7rem 1rem;border-top:1px solid rgba(255,255,255,.05);display:flex;justify-content:space-between;align-items:center">
-            <span style="font-family:monospace;font-size:.65rem;color:rgba(255,255,255,.3)">ZarinPal</span>
-            <span style="background:rgba(54,224,193,.08);border:1px solid rgba(54,224,193,.25);border-radius:6px;padding:.28rem .75rem;font-family:monospace;font-size:.65rem;color:#36e0c1">✓ پرداخت شد</span>
-          </div>
-        </div>
-      </div>`
-    },
-    {
-      badge:'os', accent:'#22d3ee',
-      bg:'radial-gradient(ellipse 80% 80% at 70% 50%,#061218,#030c12)',
-      title:'EX-CHANGE',
-      en:{desc:'AI-powered code translator across 13 programming languages. Write in Python, get it in Rust, Go, Java or any other — instantly, with Claude Code CLI preserving the idioms of the target language.',badge:'Open Source'},
-      fa:{desc:'مبدل کد هوشمند بین ۱۳ زبان برنامه‌نویسی. به پایتون بنویس، فوری به Rust، Go یا Java تبدیل کن — با Claude Code CLI که اصطلاحات هر زبان رو حفظ می‌کنه.',badge:'متن‌باز'},
-      tags:['Python','Tkinter','Claude Code CLI','Threading'],
-      link:'https://github.com/AlirezaRg/Ex-Changes-Code',
-      vis:()=>IMG('./img/exchange.png','EX-CHANGE Code Translator',true)
-    },
-    {
-      badge:'os', accent:'#4ade80',
-      bg:'radial-gradient(ellipse 80% 80% at 70% 50%,#061408,#030e04)',
-      title:'CODEANALYSIS',
-      en:{desc:'Scan your entire project folder with one click, then ask anything in plain language. "Where do I handle auth?", "Which file sends emails?" — Claude Code CLI reads the code and answers instantly.',badge:'Open Source'},
-      fa:{desc:'با یه کلیک کل پروژه رو اسکن کن، بعد هر چیزی به زبان ساده بپرس. "کجا auth رو handle می‌کنم؟"، "کدوم فایل ایمیل می‌فرسته؟" — Claude Code CLI کد رو می‌خونه و فوری جواب می‌ده.',badge:'متن‌باز'},
-      tags:['Python','Tkinter','Claude Code CLI','Threading'],
-      link:'https://github.com/AlirezaRg/code-analysis',
-      vis:()=>IMG('./img/codeanalysis.png','CODEANALYSIS Smart Search',true)
-    },
-    {
-      badge:'os', accent:'#38bdf8',
-      bg:'radial-gradient(ellipse 80% 80% at 70% 50%,#061018,#030810)',
-      title:'Telegram Downloader Bot',
-      en:{desc:'Downloads from YouTube, Instagram, TikTok, SoundCloud and Twitter/X. Users pick video or audio format. Admins get a built-in panel for user stats, banning, and broadcasting — all inside Telegram.',badge:'Open Source'},
-      fa:{desc:'از یوتیوب، اینستاگرام، تیک‌تاک، ساندکلاد و توییتر/X دانلود می‌کنه. کاربران فرمت ویدیو یا صدا رو انتخاب می‌کنن. ادمین‌ها پنل کامل آمار، مسدودسازی و بُرودکست دارن — همه داخل تلگرام.',badge:'متن‌باز'},
-      tags:['Python','python-telegram-bot','yt-dlp','SQLite'],
-      link:'https://github.com/AlirezaRg/telegram_downloader',
-      vis:()=>IMG('./img/telegram.jpg','Telegram Downloader Bot')
-    },
-    {
-      badge:'os', accent:'#fb923c',
-      bg:'radial-gradient(ellipse 80% 80% at 70% 50%,#160808,#0a0404)',
-      title:'Video01',
-      en:{desc:'Converts any video frame-by-frame into pure binary — 0s and 1s. A 60-second clip becomes 119M bits, shipped as a reconstructable ZIP. Has both a Telegram bot and a desktop GUI.',badge:'Open Source'},
-      fa:{desc:'هر ویدیو رو فریم‌به‌فریم به باینری خالص تبدیل می‌کنه — صفر و یک. یه کلیپ ۶۰ ثانیه‌ای ۱۱۹ میلیون بیت می‌شه و به‌صورت ZIP قابل بازسازی ارسال می‌شه. هم بات تلگرام داره هم GUI دسکتاپ.',badge:'متن‌باز'},
-      tags:['Python','OpenCV','python-telegram-bot','Pillow'],
-      link:'https://github.com/AlirezaRg/telegrambot-video01',
-      vis:()=>`<div style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;padding:1.5rem 2rem">
-        <div style="background:#0c0606;border:1px solid rgba(251,146,60,.25);border-radius:18px;overflow:hidden;width:100%;max-width:380px;filter:drop-shadow(0 24px 70px rgba(0,0,0,.8))">
-          <div style="background:#140808;padding:.65rem 1rem;display:flex;align-items:center;gap:.7rem;border-bottom:1px solid rgba(255,255,255,.06)">
-            <div style="width:34px;height:34px;border-radius:9px;background:rgba(251,146,60,.12);border:1px solid rgba(251,146,60,.25);display:flex;align-items:center;justify-content:center">
-              <svg viewBox="0 0 24 24" fill="none" stroke="#fb923c" stroke-width="1.5" width="17" height="17"><rect x="3" y="6" width="18" height="13" rx="2"/><path d="M9 10v5l4-2.5z" fill="#fb923c" stroke="none"/></svg>
-            </div>
-            <div><div style="font-family:monospace;font-size:.72rem;color:rgba(255,255,255,.75)">video.mp4 → binary</div><div style="font-family:monospace;font-size:.62rem;color:rgba(255,255,255,.3)">60 sec · 30fps</div></div>
-          </div>
-          <div style="padding:1.1rem">
-            <div style="background:#1a0a08;border-radius:10px;padding:.9rem;border:1px solid rgba(251,146,60,.12);font-family:monospace;font-size:.62rem;margin-bottom:.9rem">
-              <div style="color:#fb923c;margin-bottom:.45rem">=== FRAME 0 | 00:00 ===</div>
-              <div style="color:rgba(255,255,255,.45);line-height:1.65">11111111101100011111111110000000<br>00000001000001001010010001100000<br>01101000001111111000011100000110</div>
-            </div>
-            <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:.55rem;font-family:monospace;text-align:center">
-              ${[['1,800','frames'],['119M','bits'],['~49MB','zip']].map(([v,l])=>`
-              <div style="background:#1a0a08;border-radius:9px;padding:.55rem;border:1px solid rgba(251,146,60,.1)">
-                <div style="font-size:.78rem;color:#fb923c;font-weight:700">${v}</div>
-                <div style="font-size:.6rem;color:rgba(255,255,255,.3);margin-top:.18rem">${l}</div>
-              </div>`).join('')}
-            </div>
-          </div>
-        </div>
-      </div>`
-    }
+    { badge:'os', accent:'#ffb454', title:'Rasco',
+      en:{desc:'A JARVIS-style desktop AI assistant — Claude Code CLI wired as the reasoning engine, Tkinter as the face. Reads your code, runs commands, and answers questions in real time.'},
+      fa:{desc:'دستیار هوش مصنوعی دسکتاپ به سبک JARVIS — Claude Code CLI به‌عنوان موتور استدلال و Tkinter به‌عنوان رابط. کد رو می‌خونه، دستورات رو اجرا می‌کنه و سوالات رو لحظه‌ای جواب می‌ده.'},
+      tags:['Python','Tkinter','Claude Code CLI'], link:'https://github.com/AlirezaRg/Rasco-Gosi' },
+    { badge:'os', accent:'#ff7a1a', title:'Gosi',
+      en:{desc:'A cyberpunk-themed coding assistant with a sheep mascot, powered by Claude Code CLI. Explains functions, finds bugs, and suggests fixes — all from a sleek desktop UI.'},
+      fa:{desc:'دستیار کدنویسی با تم سایبرپانک و ماسکات گوسفند، مبتنی بر Claude Code CLI. توابع رو توضیح می‌ده، باگ پیدا می‌کنه و راه‌حل پیشنهاد می‌ده — همه از یه رابط دسکتاپ شیک.'},
+      tags:['Python','Claude Code CLI','Desktop UI'], link:'https://github.com/AlirezaRg/Rasco-Gosi' },
+    { badge:'cl', accent:'#ffb454', title:'Flask + Odoo Bridge',
+      en:{desc:'Flask middleware connecting ST-Face E540 biometric devices to Odoo 18 ERP. Employees check in on a physical device — Odoo records it instantly via WebSocket, no manual data entry.'},
+      fa:{desc:'میدل‌ور Flask که دستگاه‌های بیومتریک ST-Face E540 رو به اودوو ۱۸ وصل می‌کنه. کارمندان از دستگاه فیزیکی ورود می‌زنن — اودوو فوری از طریق WebSocket ثبت می‌کنه، بدون ورود دستی.'},
+      tags:['Flask','Odoo 18','WebSocket','PostgreSQL'], link:'' },
+    { badge:'cl', accent:'#ff7a1a', title:'Omid Market',
+      en:{desc:'A full-featured Django e-commerce app for a supermarket. Product catalog, cart management, ZarinPal payment gateway, and admin panel — with complete RTL support for Persian users.'},
+      fa:{desc:'اپ فروشگاهی کامل با Django برای یه سوپرمارکت. کاتالوگ محصول، مدیریت سبد خرید، درگاه پرداخت زرین‌پال و پنل ادمین — با پشتیبانی کامل RTL برای کاربران فارسی‌زبان.'},
+      tags:['Django','PostgreSQL','ZarinPal','Bootstrap 5 RTL'], link:'' },
+    { badge:'os', accent:'#ffb454', title:'EX-CHANGE',
+      en:{desc:'AI-powered code translator across 13 programming languages. Write in Python, get it in Rust, Go, Java or any other — instantly, with Claude Code CLI preserving the idioms of the target language.'},
+      fa:{desc:'مبدل کد هوشمند بین ۱۳ زبان برنامه‌نویسی. به پایتون بنویس، فوری به Rust، Go یا Java تبدیل کن — با Claude Code CLI که اصطلاحات هر زبان رو حفظ می‌کنه.'},
+      tags:['Python','Tkinter','Claude Code CLI','Threading'], link:'https://github.com/AlirezaRg/Ex-Changes-Code' },
+    { badge:'os', accent:'#ff7a1a', title:'CODEANALYSIS',
+      en:{desc:'Scan your entire project folder with one click, then ask anything in plain language. "Where do I handle auth?", "Which file sends emails?" — Claude Code CLI reads the code and answers instantly.'},
+      fa:{desc:'با یه کلیک کل پروژه رو اسکن کن، بعد هر چیزی به زبان ساده بپرس. "کجا auth رو handle می‌کنم؟"، "کدوم فایل ایمیل می‌فرسته؟" — Claude Code CLI کد رو می‌خونه و فوری جواب می‌ده.'},
+      tags:['Python','Tkinter','Claude Code CLI','Threading'], link:'https://github.com/AlirezaRg/code-analysis' },
+    { badge:'os', accent:'#ffb454', title:'Telegram Downloader Bot',
+      en:{desc:'Downloads from YouTube, Instagram, TikTok, SoundCloud and Twitter/X. Users pick video or audio format. Admins get a built-in panel for user stats, banning, and broadcasting — all inside Telegram.'},
+      fa:{desc:'از یوتیوب، اینستاگرام، تیک‌تاک، ساندکلاد و توییتر/X دانلود می‌کنه. کاربران فرمت ویدیو یا صدا رو انتخاب می‌کنن. ادمین‌ها پنل کامل آمار، مسدودسازی و بُرودکست دارن — همه داخل تلگرام.'},
+      tags:['Python','python-telegram-bot','yt-dlp','SQLite'], link:'https://github.com/AlirezaRg/telegram_downloader' },
+    { badge:'os', accent:'#ff7a1a', title:'Video01',
+      en:{desc:'Converts any video frame-by-frame into pure binary — 0s and 1s. A 60-second clip becomes 119M bits, shipped as a reconstructable ZIP. Has both a Telegram bot and a desktop GUI.'},
+      fa:{desc:'هر ویدیو رو فریم‌به‌فریم به باینری خالص تبدیل می‌کنه — صفر و یک. یه کلیپ ۶۰ ثانیه‌ای ۱۱۹ میلیون بیت می‌شه و به‌صورت ZIP قابل بازسازی ارسال می‌شه. هم بات تلگرام داره هم GUI دسکتاپ.'},
+      tags:['Python','OpenCV','python-telegram-bot','Pillow'], link:'https://github.com/AlirezaRg/telegrambot-video01' }
   ];
 
+  const MQ_IMAGES=[
+    {src:'./img/rasco.jpg',alt:'Rasco'},
+    {src:'./img/gosi.jpg',alt:'Gosi'},
+    {src:'./img/odoo.jpg',alt:'Flask + Odoo Bridge'},
+    {src:'./img/exchange.png',alt:'EX-CHANGE'},
+    {src:'./img/codeanalysis.png',alt:'CODEANALYSIS'},
+    {src:'./img/telegram.jpg',alt:'Telegram Downloader Bot'}
+  ];
 
-  const sec = document.getElementById('projects');
-  const bg = document.getElementById('projBg');
-  const wm = document.getElementById('projWm');
-  const vis = document.getElementById('projVis');
-  const txt = document.getElementById('projTxt');
-  const dotsWrap = document.getElementById('projDots');
-  const pNum = document.getElementById('pNum');
-  const pBadge = document.getElementById('pBadge');
-  const pTitle = document.getElementById('pTitle');
-  const pDesc = document.getElementById('pDesc');
-  const pTags = document.getElementById('pTags');
-  const pLink = document.getElementById('pLink');
-
-  if(!sec||!bg) return;
-
-  // set section height
-  const setH=()=>{ sec.style.height=(PROJ.length*1.4*window.innerHeight)+'px'; };
-  setH(); window.addEventListener('resize',setH);
-
-  // build dots
-  PROJ.forEach((_,i)=>{
-    const b=document.createElement('button');
-    b.className='pd'; b.setAttribute('aria-label','Project '+(i+1));
-    b.addEventListener('click',()=>{
-      const top=sec.offsetTop+i*1.4*window.innerHeight;
-      window.scrollTo({top,behavior:'smooth'});
+  function renderMarquee(){
+    const cols=[[MQ_IMAGES[0],MQ_IMAGES[3]],[MQ_IMAGES[1],MQ_IMAGES[4]],[MQ_IMAGES[2],MQ_IMAGES[5]]];
+    cols.forEach((list,i)=>{
+      const col=document.getElementById('mqCol'+(i+1));
+      if(!col)return;
+      const doubled=list.concat(list);
+      col.innerHTML=`<div class="mq-track">${doubled.map(im=>`<div class="mq-card"><img src="${im.src}" alt="${im.alt}" loading="lazy"></div>`).join('')}</div>`;
     });
-    dotsWrap.appendChild(b);
-  });
-  const dots=[...dotsWrap.querySelectorAll('.pd')];
+  }
 
-  let cur=-1, busy=false;
-
-  function applyProj(i){
-    const p=PROJ[i];
+  function renderGrid(){
+    const grid=document.getElementById('pjGrid');
+    if(!grid)return;
     const lang=curLang||'en';
-    bg.style.background=p.bg;
-    wm.textContent=String(i+1).padStart(2,'0');
-    vis.innerHTML=p.vis();
-    pNum.textContent=String(i+1).padStart(2,'0')+' / 08';
-    pBadge.className='proj-bdg '+(p.badge||'os');
-    pBadge.textContent=(p[lang]&&p[lang].badge)||p.en.badge;
-    pTitle.textContent=p.title;
-    pDesc.textContent=(p[lang]&&p[lang].desc)||p.en.desc;
-    pTags.innerHTML=p.tags.map(t=>`<span>${t}</span>`).join('');
-    if(p.link){
-      pLink.href=p.link;
-      pLink.innerHTML=GH+' GitHub';
-      pLink.style.cssText=`color:${p.accent};border-color:${p.accent}44;display:inline-flex`;
-    } else {
-      pLink.style.display='none';
-    }
-    dots.forEach((d,j)=>d.classList.toggle('act',j===i));
-    cur=i;
+    grid.innerHTML=PROJ.map(p=>{
+      const badgeLabel=I18N[lang][p.badge==='os'?'badgeOpenSource':'badgeClient'];
+      const linkHtml=p.link
+        ? `<a class="pb pbg" href="${p.link}" target="_blank" rel="noopener noreferrer" style="border-color:${p.accent}55;color:${p.accent}">${GH} GitHub</a>`
+        : '';
+      return `
+        <div class="pjc" data-delay="0">
+          <div class="pjb" style="background:radial-gradient(ellipse 80% 90% at 70% 20%, ${p.accent}22, transparent 60%), var(--bg3)">
+            <div class="pi" style="color:${p.accent}">${PI}</div>
+            <span class="pjbadge">${badgeLabel}</span>
+          </div>
+          <div class="pjbody">
+            <h3 class="pjt">${p.title}</h3>
+            <p class="pjd">${(p[lang]&&p[lang].desc)||p.en.desc}</p>
+            <div class="pjs">${p.tags.map(t=>`<span class="stag">${t}</span>`).join('')}</div>
+            ${linkHtml?`<div class="pjl">${linkHtml}</div>`:''}
+          </div>
+        </div>`;
+    }).join('');
+    grid.querySelectorAll('.pjc').forEach(el=>{
+      ro.observe(el);
+      if(!isMob()){
+        el.addEventListener('mouseenter',()=>{ptrDot.classList.add('h');ptrRing.classList.add('h')});
+        el.addEventListener('mouseleave',()=>{ptrDot.classList.remove('h');ptrRing.classList.remove('h')});
+      }
+    });
   }
 
-  function switchTo(i){
-    if(i===cur||busy)return;
-    busy=true;
-    vis.classList.add('fading'); txt.classList.add('fading');
-    if(window._onProjChange)window._onProjChange(i);
-    setTimeout(()=>{
-      applyProj(i);
-      vis.classList.remove('fading'); txt.classList.remove('fading');
-      setTimeout(()=>busy=false,380);
-    },340);
-  }
+  renderMarquee();
+  renderGrid();
 
-  // init
-  applyProj(0);
-
-  window.addEventListener('scroll',()=>{
-    const rect=sec.getBoundingClientRect();
-    if(rect.top>window.innerHeight||rect.bottom<0) return;
-    const scrolled=-rect.top;
-    const idx=Math.floor(scrolled/(1.4*window.innerHeight));
-    const clamped=Math.max(0,Math.min(idx,PROJ.length-1));
-    switchTo(clamped);
-  },{passive:true});
-
-  // re-apply text when language switches (hook into applyLang)
   const origApplyLang=applyLang;
-  window.applyLang=(lang)=>{ origApplyLang(lang); if(cur>=0) applyProj(cur); };
+  window.applyLang=(lang)=>{ origApplyLang(lang); renderGrid(); };
 })();
 
 // ─── COPY EMAIL ───
@@ -719,7 +599,7 @@ try {
       colors: [
         { color: '#181817', enabled: true },
         { color: '#FF8F00', enabled: true },
-        { color: '#459490', enabled: true },
+        { color: '#FF7A1A', enabled: true },
         { color: '#E4E4E4', enabled: false },
         { color: '#F6FFFF', enabled: false },
       ],
