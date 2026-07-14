@@ -346,3 +346,23 @@ footer{padding:clamp(2rem,4vw,3rem) var(--r);text-align:center;color:var(--ink-m
   .proj-txt{top:auto;bottom:5%;transform:none;width:95%;left:50%;transform:translateX(-50%)}
   .proj-txt.fading{transform:translateX(-50%) translateY(18px)}
 }
+
+/* ══════ CSS ANIMATED GRADIENT (replaces NEAT) ══════ */
+#gradient{
+  position:absolute;inset:0;z-index:1;
+  background:linear-gradient(
+    -45deg,
+    #181817, #1a0f00, #0a1a12, #181817,
+    #FF8F00, #181817, #459490, #181817
+  );
+  background-size:400% 400%;
+  animation:neatGrad 18s ease infinite;
+  opacity:.7;
+}
+@keyframes neatGrad{
+  0%{background-position:0% 50%}
+  25%{background-position:100% 50%}
+  50%{background-position:100% 0%}
+  75%{background-position:0% 100%}
+  100%{background-position:0% 50%}
+}
