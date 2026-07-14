@@ -370,35 +370,35 @@ footer{padding:clamp(2rem,4vw,3rem) var(--r);text-align:center;color:var(--ink-m
 
 @keyframes fullBgMove{
   0%{background:
-    radial-gradient(ellipse 75% 65% at 85% 15%, rgba(255,143,0,.7) 0%, transparent 58%),
-    radial-gradient(ellipse 65% 60% at 10% 85%, rgba(69,148,144,.65) 0%, transparent 53%),
-    #070809;}
+    radial-gradient(ellipse 75% 65% at 85% 15%, rgba(255,143,0,.95) 0%, transparent 58%),
+    radial-gradient(ellipse 65% 60% at 10% 85%, rgba(69,148,144,.9) 0%, transparent 53%),
+    #0a0b0e;}
   25%{background:
-    radial-gradient(ellipse 75% 65% at 65% 5%, rgba(255,143,0,.65) 0%, transparent 58%),
-    radial-gradient(ellipse 65% 60% at 25% 90%, rgba(69,148,144,.6) 0%, transparent 53%),
-    #070809;}
+    radial-gradient(ellipse 75% 65% at 65% 5%, rgba(255,143,0,.9) 0%, transparent 58%),
+    radial-gradient(ellipse 65% 60% at 25% 90%, rgba(69,148,144,.85) 0%, transparent 53%),
+    #0a0b0e;}
   50%{background:
-    radial-gradient(ellipse 75% 65% at 15% 20%, rgba(255,143,0,.6) 0%, transparent 58%),
-    radial-gradient(ellipse 65% 60% at 88% 80%, rgba(69,148,144,.7) 0%, transparent 53%),
-    #070809;}
+    radial-gradient(ellipse 75% 65% at 15% 20%, rgba(255,143,0,.85) 0%, transparent 58%),
+    radial-gradient(ellipse 65% 60% at 88% 80%, rgba(69,148,144,.95) 0%, transparent 53%),
+    #0a0b0e;}
   75%{background:
-    radial-gradient(ellipse 75% 65% at 92% 70%, rgba(255,143,0,.65) 0%, transparent 58%),
-    radial-gradient(ellipse 65% 60% at 5% 25%, rgba(69,148,144,.62) 0%, transparent 53%),
-    #070809;}
+    radial-gradient(ellipse 75% 65% at 92% 70%, rgba(255,143,0,.9) 0%, transparent 58%),
+    radial-gradient(ellipse 65% 60% at 5% 25%, rgba(69,148,144,.88) 0%, transparent 53%),
+    #0a0b0e;}
   100%{background:
-    radial-gradient(ellipse 75% 65% at 50% 5%, rgba(255,143,0,.72) 0%, transparent 58%),
-    radial-gradient(ellipse 65% 60% at 35% 92%, rgba(69,148,144,.65) 0%, transparent 53%),
-    #070809;}
+    radial-gradient(ellipse 75% 65% at 50% 5%, rgba(255,143,0,.98) 0%, transparent 58%),
+    radial-gradient(ellipse 65% 60% at 35% 92%, rgba(69,148,144,.9) 0%, transparent 53%),
+    #0a0b0e;}
 }
 
 /* All sections transparent so gradient shows through */
 #hero,#studio,#about,#skills,#contact{background:transparent!important}
-footer{background:rgba(5,6,8,.85)!important}
+footer{background:rgba(5,6,8,.7)!important}
 
 /* Dark overlay on sections for readability */
 #studio::before,#about::before,#skills::before,#contact::before{
   content:'';position:absolute;inset:0;
-  background:rgba(5,6,8,.55);
+  background:rgba(5,6,8,.3);
   z-index:0;pointer-events:none;
 }
 #studio,#about,#skills,#contact{position:relative}
