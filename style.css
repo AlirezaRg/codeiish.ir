@@ -366,3 +366,27 @@ footer{padding:clamp(2rem,4vw,3rem) var(--r);text-align:center;color:var(--ink-m
   75%{background-position:0% 100%}
   100%{background-position:0% 50%}
 }
+
+/* ══════ HERO GRADIENT OVERRIDE ══════ */
+#hero{
+  background:linear-gradient(
+    -45deg,
+    #0d0d0c,
+    #2a1800,
+    #0d2018,
+    #0d0d0c,
+    #3a2000,
+    #0d0d0c,
+    #1a3028
+  ) !important;
+  background-size:600% 600% !important;
+  animation:heroGrad 14s ease infinite !important;
+}
+#gradient{display:none}
+@keyframes heroGrad{
+  0%{background-position:0% 50%}
+  33%{background-position:100% 0%}
+  66%{background-position:50% 100%}
+  100%{background-position:0% 50%}
+}
+.hero-bg{display:none!important}
