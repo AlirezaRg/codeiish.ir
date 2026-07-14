@@ -623,14 +623,19 @@ sbtn.addEventListener('click',async function(){
     }
   }
 
-  // ─── 3D rendered mascots (Three.js) ───
+  // ─── 3D rendered mascots (Three.js + glTF robot, with procedural fallback) ───
+  const ROBOT_URL='https://threejs.org/examples/models/gltf/RobotExpressive/RobotExpressive.glb';
   let mesh3D=[], io3D=null;
 
   function build3DIcons(){
     mesh3D.forEach(s=>s.renderer.dispose());
     mesh3D=[];
     if(io3D)io3D.disconnect();
-    if(REDUCE_MOTION||typeof THREE==='undefined')return;
+    if(REDUCE_MOTION)return;
+    if(!(window.THREE&&window.GLTFLoader)){
+      window.addEventListener('three-ready',build3DIcons,{once:true});
+      return;
+    }
 
     const boxes=[...document.querySelectorAll('.pjb')];
     if(!boxes.length)return;
@@ -645,6 +650,7 @@ sbtn.addEventListener('click',async function(){
       ()=>new THREE.SphereGeometry(0.95,10,8),
       ()=>new THREE.BoxGeometry(1.2,1.2,1.2)
     ];
+    const loader=new window.GLTFLoader();
 
     boxes.forEach((box,i)=>{
       const card=box.closest('.pjc');
@@ -662,19 +668,43 @@ sbtn.addEventListener('click',async function(){
       const camera=new THREE.PerspectiveCamera(38,w/h,0.1,10);
       camera.position.z=3.4;
 
-      scene.add(new THREE.AmbientLight(0xffffff,0.55));
-      const light=new THREE.PointLight(new THREE.Color(accent),2.2,10);
+      scene.add(new THREE.AmbientLight(0xffffff,0.6));
+      const light=new THREE.PointLight(new THREE.Color(accent),2.4,10);
       light.position.set(2,2,3);
       scene.add(light);
 
-      const geo=GEOS[i%GEOS.length]();
-      const mesh=new THREE.Mesh(geo,new THREE.MeshStandardMaterial({color:new THREE.Color(accent),roughness:.35,metalness:.55}));
-      const wire=new THREE.Mesh(geo.clone(),new THREE.MeshBasicMaterial({color:new THREE.Color(accent),wireframe:true,transparent:true,opacity:.25}));
-      wire.scale.setScalar(1.04);
-      mesh.add(wire);
-      scene.add(mesh);
+      const entry={box,card,renderer,scene,camera,mesh:null,mixer:null,active:true,rotX:Math.random()*Math.PI,rotY:Math.random()*Math.PI,speed:0.28+Math.random()*0.16};
+      mesh3D.push(entry);
 
-      mesh3D.push({box,card,renderer,scene,camera,mesh,active:true,rotX:Math.random()*Math.PI,rotY:Math.random()*Math.PI,speed:0.28+Math.random()*0.16});
+      function useFallback(){
+        const geo=GEOS[i%GEOS.length]();
+        const mesh=new THREE.Mesh(geo,new THREE.MeshStandardMaterial({color:new THREE.Color(accent),roughness:.35,metalness:.55}));
+        const wire=new THREE.Mesh(geo.clone(),new THREE.MeshBasicMaterial({color:new THREE.Color(accent),wireframe:true,transparent:true,opacity:.25}));
+        wire.scale.setScalar(1.04);
+        mesh.add(wire);
+        scene.add(mesh);
+        entry.mesh=mesh;
+      }
+
+      loader.load(ROBOT_URL, gltf=>{
+        const model=gltf.scene;
+        const box3=new THREE.Box3().setFromObject(model);
+        const size=new THREE.Vector3(); box3.getSize(size);
+        const center=new THREE.Vector3(); box3.getCenter(center);
+        const maxDim=Math.max(size.x,size.y,size.z)||1;
+        const scale=1.6/maxDim;
+        model.scale.setScalar(scale);
+        model.position.set(-center.x*scale,-center.y*scale-0.15,-center.z*scale);
+        scene.add(model);
+        entry.mesh=model;
+
+        if(gltf.animations&&gltf.animations.length){
+          const mixer=new THREE.AnimationMixer(model);
+          const clip=gltf.animations.find(c=>c.name==='Idle')||gltf.animations[0];
+          mixer.clipAction(clip).play();
+          entry.mixer=mixer;
+        }
+      }, undefined, useFallback);
     });
 
     io3D=new IntersectionObserver(entries=>{
@@ -702,9 +732,10 @@ sbtn.addEventListener('click',async function(){
     last3D=now;
     if(running3D){
       mesh3D.forEach(s=>{
-        if(!s.active)return;
-        s.rotX+=dt*s.speed;
-        s.rotY+=dt*s.speed*0.7;
+        if(!s.active||!s.mesh)return;
+        if(s.mixer)s.mixer.update(dt);
+        s.rotX+=dt*s.speed*0.35;
+        s.rotY+=dt*s.speed;
         const exRx=(parseFloat(s.card.style.getPropertyValue('--rx'))||0)*Math.PI/180*0.6;
         const exRy=(parseFloat(s.card.style.getPropertyValue('--ry'))||0)*Math.PI/180*0.6;
         s.mesh.rotation.x=s.rotX+exRx;
