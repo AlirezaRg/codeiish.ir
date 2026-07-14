@@ -349,76 +349,6 @@ function tl(){
   typeBlock();
 })();
 
-// ─── NEAT ANIMATED GRADIENT ───
-(()=>{
-  const el = document.getElementById('gradient');
-  if(!el) return;
-
-  const tryInit = () => {
-    const GradClass = (window.neat && window.neat.NeatGradient) ? window.neat.NeatGradient
-                    : (typeof NeatGradient !== 'undefined') ? NeatGradient
-                    : null;
-    if(!GradClass){ setTimeout(tryInit, 200); return; }
-
-    const gradient = new GradClass({
-      ref: el,
-      colors: [
-        { color: '#181817', enabled: true },
-        { color: '#FF8F00', enabled: true },
-        { color: '#459490', enabled: true },
-        { color: '#E4E4E4', enabled: false },
-        { color: '#F6FFFF', enabled: false },
-      ],
-      speed: 4,
-      horizontalPressure: 4,
-      verticalPressure: 5,
-      waveFrequencyX: 1,
-      waveFrequencyY: 2,
-      waveAmplitude: 10,
-      shadows: 4,
-      highlights: 7,
-      colorBrightness: 1,
-      colorSaturation: 0,
-      wireframe: false,
-      colorBlending: 7,
-      backgroundColor: '#00A2FF',
-      backgroundAlpha: 1,
-      grainScale: 4,
-      grainSparsity: 0,
-      grainIntensity: 0.2,
-      grainSpeed: 2.2,
-      resolution: 0.65,
-      yOffset: 0,
-      yOffsetWaveMultiplier: 5,
-      yOffsetColorMultiplier: 4.5,
-      yOffsetFlowMultiplier: 5.5,
-      flowDistortionA: 0,
-      flowDistortionB: 0,
-      flowScale: 1,
-      flowEase: 0,
-      flowEnabled: true,
-      enableProceduralTexture: false,
-      domainWarpEnabled: false,
-      vignetteIntensity: 0,
-      vignetteRadius: 0.8,
-      fresnelEnabled: false,
-      iridescenceEnabled: false,
-      bloomIntensity: 0,
-      bloomThreshold: 0.7,
-      chromaticAberration: 0,
-      shapeType: 'plane',
-      flatShading: true,
-      cameraLock: true,
-    });
-
-    window.addEventListener('scroll', () => {
-      gradient.yOffset = window.scrollY;
-    }, { passive: true });
-  };
-
-  tryInit();
-})();
-
 // ─── SCROLL PROGRESS ───
 const spb=document.getElementById('spb');
 window.addEventListener('scroll',()=>{
@@ -778,3 +708,35 @@ sbtn.addEventListener('click',async function(){
 // ─── INIT ───
 applyLang('en');
 tl();
+
+
+// ─── NEAT ANIMATED GRADIENT (safe - after everything else) ───
+try {
+  const _neatEl = document.getElementById('gradient');
+  if(_neatEl && window.neat && window.neat.NeatGradient) {
+    const _gradient = new window.neat.NeatGradient({
+      ref: _neatEl,
+      colors: [
+        { color: '#181817', enabled: true },
+        { color: '#FF8F00', enabled: true },
+        { color: '#459490', enabled: true },
+        { color: '#E4E4E4', enabled: false },
+        { color: '#F6FFFF', enabled: false },
+      ],
+      speed: 4, horizontalPressure: 4, verticalPressure: 5,
+      waveFrequencyX: 1, waveFrequencyY: 2, waveAmplitude: 10,
+      shadows: 4, highlights: 7, colorBrightness: 1, colorSaturation: 0,
+      wireframe: false, colorBlending: 7,
+      backgroundColor: '#00A2FF', backgroundAlpha: 1,
+      grainScale: 4, grainSparsity: 0, grainIntensity: 0.2, grainSpeed: 2.2,
+      resolution: 0.65, yOffset: 0,
+      yOffsetWaveMultiplier: 5, yOffsetColorMultiplier: 4.5, yOffsetFlowMultiplier: 5.5,
+      flowDistortionA: 0, flowDistortionB: 0, flowScale: 1, flowEase: 0, flowEnabled: true,
+      enableProceduralTexture: false, domainWarpEnabled: false,
+      vignetteIntensity: 0, fresnelEnabled: false, iridescenceEnabled: false,
+      bloomIntensity: 0, chromaticAberration: 0,
+      shapeType: 'plane', flatShading: true, cameraLock: true,
+    });
+    window.addEventListener('scroll', () => { _gradient.yOffset = window.scrollY; }, { passive: true });
+  }
+} catch(e) { console.warn('NEAT gradient failed silently:', e.message); }
