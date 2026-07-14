@@ -623,12 +623,106 @@ sbtn.addEventListener('click',async function(){
     }
   }
 
+  // ─── 3D rendered mascots (Three.js) ───
+  let mesh3D=[], io3D=null;
+
+  function build3DIcons(){
+    mesh3D.forEach(s=>s.renderer.dispose());
+    mesh3D=[];
+    if(io3D)io3D.disconnect();
+    if(REDUCE_MOTION||typeof THREE==='undefined')return;
+
+    const boxes=[...document.querySelectorAll('.pjb')];
+    if(!boxes.length)return;
+
+    const GEOS=[
+      ()=>new THREE.IcosahedronGeometry(1,0),
+      ()=>new THREE.OctahedronGeometry(1,0),
+      ()=>new THREE.TorusKnotGeometry(0.7,0.22,80,10),
+      ()=>new THREE.DodecahedronGeometry(1,0),
+      ()=>new THREE.ConeGeometry(0.9,1.3,6),
+      ()=>new THREE.TetrahedronGeometry(1.1,0),
+      ()=>new THREE.SphereGeometry(0.95,10,8),
+      ()=>new THREE.BoxGeometry(1.2,1.2,1.2)
+    ];
+
+    boxes.forEach((box,i)=>{
+      const card=box.closest('.pjc');
+      const accent=(PROJ[i]&&PROJ[i].accent)||'#ffb454';
+      const w=box.clientWidth||200, h=box.clientHeight||130;
+
+      const canvas=document.createElement('canvas');
+      box.appendChild(canvas);
+
+      const renderer=new THREE.WebGLRenderer({canvas,alpha:true,antialias:true});
+      renderer.setPixelRatio(Math.min(window.devicePixelRatio||1,2));
+      renderer.setSize(w,h,false);
+
+      const scene=new THREE.Scene();
+      const camera=new THREE.PerspectiveCamera(38,w/h,0.1,10);
+      camera.position.z=3.4;
+
+      scene.add(new THREE.AmbientLight(0xffffff,0.55));
+      const light=new THREE.PointLight(new THREE.Color(accent),2.2,10);
+      light.position.set(2,2,3);
+      scene.add(light);
+
+      const geo=GEOS[i%GEOS.length]();
+      const mesh=new THREE.Mesh(geo,new THREE.MeshStandardMaterial({color:new THREE.Color(accent),roughness:.35,metalness:.55}));
+      const wire=new THREE.Mesh(geo.clone(),new THREE.MeshBasicMaterial({color:new THREE.Color(accent),wireframe:true,transparent:true,opacity:.25}));
+      wire.scale.setScalar(1.04);
+      mesh.add(wire);
+      scene.add(mesh);
+
+      mesh3D.push({box,card,renderer,scene,camera,mesh,active:true,rotX:Math.random()*Math.PI,rotY:Math.random()*Math.PI,speed:0.28+Math.random()*0.16});
+    });
+
+    io3D=new IntersectionObserver(entries=>{
+      entries.forEach(e=>{
+        const entry=mesh3D.find(s=>s.box===e.target);
+        if(entry)entry.active=e.isIntersecting;
+      });
+    },{threshold:0.05});
+    mesh3D.forEach(s=>io3D.observe(s.box));
+  }
+
+  let running3D=!document.hidden;
+  document.addEventListener('visibilitychange',()=>{ running3D=!document.hidden; });
+  window.addEventListener('resize',()=>{
+    mesh3D.forEach(s=>{
+      const w=s.box.clientWidth||200, h=s.box.clientHeight||130;
+      s.renderer.setSize(w,h,false);
+      s.camera.aspect=w/h;
+      s.camera.updateProjectionMatrix();
+    });
+  });
+  let last3D=performance.now();
+  function loop3D(now){
+    const dt=Math.min((now-last3D)/1000,0.1);
+    last3D=now;
+    if(running3D){
+      mesh3D.forEach(s=>{
+        if(!s.active)return;
+        s.rotX+=dt*s.speed;
+        s.rotY+=dt*s.speed*0.7;
+        const exRx=(parseFloat(s.card.style.getPropertyValue('--rx'))||0)*Math.PI/180*0.6;
+        const exRy=(parseFloat(s.card.style.getPropertyValue('--ry'))||0)*Math.PI/180*0.6;
+        s.mesh.rotation.x=s.rotX+exRx;
+        s.mesh.rotation.y=s.rotY+exRy;
+        s.renderer.render(s.scene,s.camera);
+      });
+    }
+    requestAnimationFrame(loop3D);
+  }
+  requestAnimationFrame(loop3D);
+
   renderMarquee();
   renderGrid();
   initMarqueeTilt();
+  build3DIcons();
 
   const origApplyLang=applyLang;
-  window.applyLang=(lang)=>{ origApplyLang(lang); renderGrid(); };
+  window.applyLang=(lang)=>{ origApplyLang(lang); renderGrid(); build3DIcons(); };
 })();
 
 // ─── COPY EMAIL ───
