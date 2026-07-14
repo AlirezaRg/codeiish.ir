@@ -684,17 +684,14 @@ sbtn.addEventListener('click',async function(){
         mesh.add(wire);
         scene.add(mesh);
         entry.mesh=mesh;
+        renderer.render(scene,camera);
       }
 
       loader.load(ROBOT_URL, gltf=>{
         const model=gltf.scene;
-        const box3=new THREE.Box3().setFromObject(model);
-        const size=new THREE.Vector3(); box3.getSize(size);
-        const center=new THREE.Vector3(); box3.getCenter(center);
-        const maxDim=Math.max(size.x,size.y,size.z)||1;
-        const scale=1.6/maxDim;
-        model.scale.setScalar(scale);
-        model.position.set(-center.x*scale,-center.y*scale-0.15,-center.z*scale);
+        // RobotExpressive's skinned-mesh bind pose throws off Box3 auto-fit (reports a huge
+        // bogus bounding box), so frame it with fixed, empirically-checked values instead.
+        model.position.set(0,-1,0);
         scene.add(model);
         entry.mesh=model;
 
@@ -704,6 +701,7 @@ sbtn.addEventListener('click',async function(){
           mixer.clipAction(clip).play();
           entry.mixer=mixer;
         }
+        renderer.render(scene,camera);
       }, undefined, useFallback);
     });
 
